@@ -1,0 +1,7 @@
+package com.Gym.GymMembershipManagementSystem.repository;
+
+import com.Gym.GymMembershipManagementSystem.entity.Payments;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PaymentsRepository extends JpaRepository<Payments, Long> {
+}

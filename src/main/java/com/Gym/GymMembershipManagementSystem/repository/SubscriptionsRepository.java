@@ -1,0 +1,14 @@
+package com.Gym.GymMembershipManagementSystem.repository;
+
+import com.Gym.GymMembershipManagementSystem.entity.Selections.SubscriptionStatus;
+import com.Gym.GymMembershipManagementSystem.entity.Subscriptions;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public interface SubscriptionsRepository extends JpaRepository<Subscriptions, Long> {
+    boolean existsByMember_MemberIdAndStatusAndEndDateGreaterThanEqual(Long memberId, SubscriptionStatus subscriptionStatus, LocalDate now);
+
+    List<Subscriptions> findByStatus(SubscriptionStatus subscriptionStatus);
+}

@@ -1,0 +1,13 @@
+package com.Gym.GymMembershipManagementSystem;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class GymMembershipManagementSystemApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(GymMembershipManagementSystemApplication.class, args);
+	}
+
+}
