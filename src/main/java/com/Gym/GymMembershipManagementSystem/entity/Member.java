@@ -21,7 +21,7 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private Long memberId;
+    private Long id;
 
     @Column(nullable = false, length = 50, comment = "Enter the name")
     private String name;

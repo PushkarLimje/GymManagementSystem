@@ -1,13 +1,13 @@
 package com.Gym.GymMembershipManagementSystem.repository;
 
-import com.Gym.GymMembershipManagementSystem.dto.memberDto.MemberResponseDTO;
 import com.Gym.GymMembershipManagementSystem.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    MemberResponseDTO getById();
 
     boolean existsByEmail(String email);
 
-    boolean existsByPhoneAndMemberIdNot(String phone, Long memberId);
+    boolean existsByPhoneAndIdNot(String phone, Long memberId);
 }

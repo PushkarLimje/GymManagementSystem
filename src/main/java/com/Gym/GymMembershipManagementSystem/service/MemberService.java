@@ -3,22 +3,21 @@ package com.Gym.GymMembershipManagementSystem.service;
 import com.Gym.GymMembershipManagementSystem.dto.memberDto.MemberCreateDTO;
 import com.Gym.GymMembershipManagementSystem.dto.memberDto.MemberResponseDTO;
 import com.Gym.GymMembershipManagementSystem.dto.memberDto.MemberUpdateDTO;
+import com.Gym.GymMembershipManagementSystem.entity.Attendance;
 import com.Gym.GymMembershipManagementSystem.entity.Member;
-import com.Gym.GymMembershipManagementSystem.entity.Selections.Gender;
 import com.Gym.GymMembershipManagementSystem.entity.Selections.StatusMember;
+import com.Gym.GymMembershipManagementSystem.exceptions.MemberAccessException;
 import com.Gym.GymMembershipManagementSystem.repository.MemberRepository;
 import com.Gym.GymMembershipManagementSystem.repository.SubscriptionsRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.time.LocalDate;
+import java.util.List;
+
 @Builder
 @Service
 @AllArgsConstructor
@@ -68,7 +67,7 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberResponseDTO updateMember(Long memberId, MemberUpdateDTO dto) {
+    public MemberUpdateDTO updateMember(Long memberId, MemberUpdateDTO dto) {
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
@@ -78,7 +77,7 @@ public class MemberService {
         }
 
         if (dto.getPhone() != null && !dto.getPhone().isBlank()) {
-            if (memberRepository.existsByPhoneAndMemberIdNot(dto.getPhone(), memberId)) {
+            if (memberRepository.existsByPhoneAndIdNot(dto.getPhone(), memberId)) {
                 throw new RuntimeException("Phone already in use");
             }
             member.setPhone(dto.getPhone());
@@ -86,22 +85,21 @@ public class MemberService {
         if (dto.getGender() != null) {
             member.setGender(dto.getGender());
         }
+        validateMemberAccess(member);
 
-        return modelMapper.map(member, MemberResponseDTO.class);
+        return modelMapper.map(member, MemberUpdateDTO.class);
     }
 
     @Transactional
     public void validateMemberAccess(Member member) {
 
         if (member.getStatus() == StatusMember.SUSPENDED) {
-            throw new RuntimeException("Member is suspended");
+            throw new MemberAccessException( "Member is suspended");
         }
 
         if (member.getStatus() == StatusMember.INACTIVE) {
-            throw new RuntimeException("Member is inactive");
+            throw new MemberAccessException("Member is inactive");
         }
     }
-
-
 
 }

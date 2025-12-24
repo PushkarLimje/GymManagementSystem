@@ -81,7 +81,7 @@ public class AttendanceService {
     public AttendanceResponseDTO getTodayAttendance(Long memberId){
         LocalDate today = LocalDate.now();
 
-        Attendance attendance = attendanceRepository.findByMember_MemberIdAndAttendanceDate(memberId, today);
+        Optional<Attendance> attendance = attendanceRepository.findByMember_IdAndAttendanceDate(memberId, today);
 
         return modelMapper.map(attendance, AttendanceResponseDTO.class);
     }
