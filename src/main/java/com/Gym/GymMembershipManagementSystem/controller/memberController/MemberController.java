@@ -19,30 +19,31 @@ import java.time.LocalDate;
 @RestController
 @RequestMapping("/member")
 @AllArgsConstructor
-@ResponseBody
 public class MemberController {
 
     private final MemberService memberService;
-    @GetMapping("/profile/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<MemberResponseDTO> getMemberById(@PathVariable Long id){
         MemberResponseDTO response = memberService.getMemberById(id);
-        return ResponseEntity.status(HttpStatus.FOUND).body(response);
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/profile/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<MemberUpdateDTO> updateMember(
-            @PathVariable Long id,@RequestBody MemberUpdateDTO dto){
+            @PathVariable Long id,
+            @RequestBody MemberUpdateDTO dto
+    ){
         MemberUpdateDTO response = memberService.updateMember(id, dto);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("")
-    public ResponseEntity<MemberCreateDTO> createMember(
+    public ResponseEntity<MemberResponseDTO> createMember(
             @RequestBody
             @Valid MemberCreateDTO dto
     ){
-        MemberCreateDTO response = memberService.createMember(dto);
+        MemberResponseDTO response = memberService.createMember(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

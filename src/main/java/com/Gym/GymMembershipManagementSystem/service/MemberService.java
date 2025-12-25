@@ -18,9 +18,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Builder
 @Service
 @AllArgsConstructor
+@Transactional
 public class MemberService {
     private SubscriptionsRepository subscriptionsRepository;
     private MemberRepository memberRepository;
@@ -36,24 +38,24 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberCreateDTO createMember(
+    public MemberResponseDTO createMember(
             @NotNull MemberCreateDTO dto
     ){
         if (memberRepository.existsByEmail(dto.getEmail())){
             throw new IllegalArgumentException("Email is present ");
         }
-
+//        BUSINESS RULE 4: Default member status on creation
         Member member = Member.builder()
                 .name(dto.getName())
                 .email(dto.getEmail())
                 .phone(dto.getPhone())
                 .gender(dto.getGender())
                 .joinDate(dto.getJoinDate())
-                .status(dto.getStatus())
+                .status(StatusMember.ACTIVE)
                 .build();
 
         Member savedMember = memberRepository.save(member);
-        return modelMapper.map(savedMember, MemberCreateDTO.class);
+        return modelMapper.map(savedMember, MemberResponseDTO.class);
     }
 
     public void validateActiveMember(Long memberId) {
@@ -67,10 +69,13 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberUpdateDTO updateMember(Long memberId, MemberUpdateDTO dto) {
+    public MemberUpdateDTO updateMember(Long memberId, @NotNull MemberUpdateDTO dto) {
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
+
+//        validateMemberAccess(member.getId()L);
+        validateMemberAccess(member);
 
         if (dto.getName() != null && !dto.getName().isBlank()) {
             member.setName(dto.getName());
@@ -85,14 +90,14 @@ public class MemberService {
         if (dto.getGender() != null) {
             member.setGender(dto.getGender());
         }
-        validateMemberAccess(member);
+
 
         return modelMapper.map(member, MemberUpdateDTO.class);
     }
 
     @Transactional
-    public void validateMemberAccess(Member member) {
-
+    public void validateMemberAccess(@NotNull Member member) {
+//        BUSINESS RULE 5: Suspended members have NO access
         if (member.getStatus() == StatusMember.SUSPENDED) {
             throw new MemberAccessException( "Member is suspended");
         }

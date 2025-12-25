@@ -6,15 +6,9 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class TrainerResponseDTO {
-//    Show trainer info
-    private Long trainerId;
-
+public class TrainerUpdateDTO {
     private String name;
-
     private GymSpecialization specialization;
-
     private String phone;
-
     private BigDecimal salary;
 }

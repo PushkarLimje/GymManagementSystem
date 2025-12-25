@@ -24,10 +24,10 @@ public class MemberCreateDTO {
     @NotBlank(message = "phone number is required ")
     private String phone;
 
-    @NotBlank(message = "gender is essential ")
+    @NotNull(message = "gender is essential ")
     private Gender gender;
 
-    @NotBlank(message = "Join Date is needed")
+    @NotNull(message = "Join Date is needed")
     private LocalDate joinDate;
 
     private StatusMember status;

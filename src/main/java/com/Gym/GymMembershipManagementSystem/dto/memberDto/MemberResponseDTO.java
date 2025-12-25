@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Data
 public class MemberResponseDTO {
 //    Send member data to client
-    private Long memberId;
+    private Long id;
     private String name;
     private String email;
     private String phone;
