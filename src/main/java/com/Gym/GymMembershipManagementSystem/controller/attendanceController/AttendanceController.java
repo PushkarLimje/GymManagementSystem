@@ -1,5 +1,6 @@
 package com.Gym.GymMembershipManagementSystem.controller.attendanceController;
 
+import com.Gym.GymMembershipManagementSystem.dto.AttendanceDto.AttendanceMonthlyReportDTO;
 import com.Gym.GymMembershipManagementSystem.dto.AttendanceDto.AttendanceResponseDTO;
 import com.Gym.GymMembershipManagementSystem.service.AttendanceService;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
-@ResponseBody
 @RestController
 @RequestMapping("/attendance")
 public class AttendanceController {
@@ -21,7 +21,8 @@ public class AttendanceController {
 
     @PostMapping("/check-in/{memberId}")
     public ResponseEntity<AttendanceResponseDTO> markCheckIn(
-            @PathVariable Long memberId){
+            @PathVariable Long memberId
+    ){
         AttendanceResponseDTO attendanceResponseDTO = attendanceService.markCheckIn(memberId);
         return ResponseEntity.status(HttpStatus.FOUND).body(attendanceResponseDTO);
     }
@@ -36,22 +37,39 @@ public class AttendanceController {
     public ResponseEntity<List<AttendanceResponseDTO>> getAllAttendance(
             @PathVariable Long memberId
     ){
-        List<AttendanceResponseDTO> responseDTOList = attendanceService.getAllAttendance(memberId);
-        return ResponseEntity.status(HttpStatus.FOUND).body(responseDTOList);
+        return ResponseEntity.ok(
+                attendanceService.getAllAttendance(memberId)
+        );
     }
 
     @GetMapping("/today/{memberId}")
     public ResponseEntity<AttendanceResponseDTO> getTodayAttendance(
             @PathVariable Long memberId
     ){
-        AttendanceResponseDTO response = attendanceService.getTodayAttendance(memberId);
-        return ResponseEntity.status(HttpStatus.FOUND).body(response);
+        return ResponseEntity.ok(
+                attendanceService.getTodayAttendance(memberId)
+        );
     }
 
     @GetMapping("/date/{date}")
     public ResponseEntity<List<AttendanceResponseDTO>> getAttendanceByDate(
             @PathVariable LocalDate date){
         List<AttendanceResponseDTO> response = attendanceService.getAttendanceByDate(date);
-        return ResponseEntity.status(HttpStatus.FOUND).body(response);
+        return ResponseEntity.ok(
+                attendanceService.getAttendanceByDate(date)
+        );
     }
+
+    @GetMapping("/report/{memberId}/{year}/{month}")
+    public ResponseEntity<AttendanceMonthlyReportDTO> getMonthlyReport(
+            @PathVariable Long memberId,
+            @PathVariable int year,
+            @PathVariable int month
+    ) {
+        return ResponseEntity.ok(
+                attendanceService.getMonthlyReport(memberId, year, month)
+        );
+    }
+
+
 }

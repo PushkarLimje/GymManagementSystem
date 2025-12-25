@@ -11,8 +11,10 @@ public class MembershipPlanResponseDTO {
 //    Show available plans
     private Long planId;
     private String planName;
-    private int durationMonths ;
+    private Integer  durationMonths ;
     private BigDecimal price;
     private String description;
     private Set<GymSpecialization> includedSpecializations;
+    private boolean active;
+
 }

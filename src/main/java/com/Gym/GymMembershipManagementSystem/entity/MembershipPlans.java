@@ -2,6 +2,7 @@ package com.Gym.GymMembershipManagementSystem.entity;
 
 import com.Gym.GymMembershipManagementSystem.entity.Selections.GymSpecialization;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -22,9 +23,10 @@ public class MembershipPlans {
     private String planName;
 
     @Column(nullable = false)
-    private int durationMonths ;
+    private Integer durationMonths ;
 
     @Column(nullable = false)
+    @PositiveOrZero
     private BigDecimal price;
 
     @Column(length = 100)
@@ -38,8 +40,10 @@ public class MembershipPlans {
     @Enumerated(EnumType.STRING)
     private Set<GymSpecialization> includedSpecializations;
 
+    @Column(nullable = false)
+    private boolean active = true;   // ✅ soft delete
+
     @OneToOne(mappedBy = "plan")
     private Subscriptions subscription;
-
 
 }
