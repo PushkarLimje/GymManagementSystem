@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface SubscriptionsRepository extends JpaRepository<Subscriptions, Long> {
     boolean existsByMember_IdAndStatusAndEndDateGreaterThanEqual(
@@ -14,4 +15,12 @@ public interface SubscriptionsRepository extends JpaRepository<Subscriptions, Lo
             LocalDate now);
 
     List<Subscriptions> findByStatus(SubscriptionStatus subscriptionStatus);
+
+    Optional<Subscriptions> findByMember_IdAndStatusAndEndDateGreaterThanEqual(
+            Long memberId,
+            SubscriptionStatus subscriptionStatus,
+            LocalDate now
+    );
+
+    List<Subscriptions> findByStatusAndEndDateBefore(SubscriptionStatus subscriptionStatus, LocalDate now);
 }

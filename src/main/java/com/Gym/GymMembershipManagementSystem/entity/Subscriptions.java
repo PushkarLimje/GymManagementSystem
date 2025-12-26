@@ -12,6 +12,12 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(
+//        name = "subscriptions",
+        indexes = {
+                @Index(name = "idx_active_subscription", columnList = "member_id, status")
+        }
+)
 public class Subscriptions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +31,7 @@ public class Subscriptions {
     @JoinColumn(name = "plan_id", nullable = false)
     private MembershipPlans plan;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "trainer_id")
     private Trainer trainer;
 

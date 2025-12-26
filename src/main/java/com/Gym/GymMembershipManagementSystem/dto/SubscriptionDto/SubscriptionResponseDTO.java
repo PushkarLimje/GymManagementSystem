@@ -1,6 +1,7 @@
 package com.Gym.GymMembershipManagementSystem.dto.SubscriptionDto;
 
 import com.Gym.GymMembershipManagementSystem.entity.Selections.StatusMember;
+import com.Gym.GymMembershipManagementSystem.entity.Selections.SubscriptionStatus;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -28,5 +29,5 @@ public class SubscriptionResponseDTO {
     // Subscription info
     private LocalDate startDate;
     private LocalDate endDate;
-    private StatusMember status;
+    private SubscriptionStatus status;
 }

@@ -7,4 +7,6 @@ public interface TrainerRepository extends JpaRepository<Trainer, Long> {
     boolean existsByPhone(String phone);
 
     boolean existsByIdAndSubscriptionIsNotNull(Long trainerId);
+
+    boolean existsByPhoneAndTrainerIdNot(String phone, Long trainerId);
 }

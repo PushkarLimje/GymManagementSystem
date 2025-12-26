@@ -29,7 +29,7 @@ public class Trainer {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal salary;
 
-    @OneToOne(mappedBy = "trainer")
+    @OneToMany(mappedBy = "trainer")
     private Subscriptions subscription;
 
 

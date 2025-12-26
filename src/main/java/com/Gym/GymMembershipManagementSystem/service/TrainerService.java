@@ -17,7 +17,6 @@ import java.math.BigDecimal;
 @Service
 @AllArgsConstructor
 @Transactional
-@Builder
 public class TrainerService {
     private final TrainerRepository trainerRepository;
     private final ModelMapper modelMapper;
@@ -81,11 +80,12 @@ public class TrainerService {
         }
 
         if (dto.getPhone() != null && !dto.getPhone().isBlank()) {
-            if (trainerRepository.existsByPhone(dto.getPhone())) {
+            if (trainerRepository.existsByPhoneAndTrainerIdNot(dto.getPhone(), trainerId)) {
                 throw new IllegalArgumentException("Trainer phone already exists");
             }
             trainer.setPhone(dto.getPhone());
         }
+
 
         if (dto.getSalary() != null) {
             if (dto.getSalary().compareTo(BigDecimal.ZERO) < 0) {

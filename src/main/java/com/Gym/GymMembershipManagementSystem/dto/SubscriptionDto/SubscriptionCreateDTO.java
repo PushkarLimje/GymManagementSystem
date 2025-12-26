@@ -10,6 +10,4 @@ public class SubscriptionCreateDTO {
     private Long memberId;
     private Long membershipPlanId;
     private Long trainerId;
-    private LocalDate startDate;
-    private LocalDate endDate;
 }
