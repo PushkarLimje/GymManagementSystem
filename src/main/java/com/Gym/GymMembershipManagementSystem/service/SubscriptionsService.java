@@ -2,6 +2,7 @@ package com.Gym.GymMembershipManagementSystem.service;
 
 import com.Gym.GymMembershipManagementSystem.dto.SubscriptionDto.SubscriptionCreateDTO;
 import com.Gym.GymMembershipManagementSystem.dto.SubscriptionDto.SubscriptionResponseDTO;
+import com.Gym.GymMembershipManagementSystem.dto.SubscriptionDto.SubscriptionUpdateDTO;
 import com.Gym.GymMembershipManagementSystem.entity.Member;
 import com.Gym.GymMembershipManagementSystem.entity.MembershipPlans;
 import com.Gym.GymMembershipManagementSystem.entity.Selections.SubscriptionStatus;
@@ -11,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface SubscriptionsService {
 
@@ -25,4 +27,13 @@ public interface SubscriptionsService {
     public void cancelSubscription(Long subscriptionId);
 
     public void validateActiveSubscription(Long memberId);
+
+    public SubscriptionResponseDTO updateSubscription(
+            Long subscriptionId,
+            SubscriptionUpdateDTO dto
+    ) ;
+
+    public SubscriptionResponseDTO renewSubscription(Long subscriptionId) ;
+
+    public List<SubscriptionResponseDTO> getSubscriptionHistory(Long memberId) ;
 }

@@ -54,6 +54,9 @@ public class Payments {
     @Column(nullable = false)
     private PaymentStatus paymentStatus;
 
+    private String orderId;        // Razorpay order_id
+    private String paymentIdRef;   // Razorpay payment_id
+
     private String failureReason;
 
     @CreationTimestamp
